@@ -1,0 +1,57 @@
+body {
+    margin: 0 auto;
+    width: 900px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#app {
+    font-size: 12px;
+}
+
+a,
+a:visited {
+    color: #0033cc;
+}
+
+ul li {
+    margin: 5px;
+}
+
+table {
+    width: 100%;
+}
+
+table td,
+table th {
+    padding: 4px 3px;
+    border: dotted 1px #ccc;
+}
+
+table th {
+    color: #666;
+    background: #eee;
+}
+
+h1 {
+    padding: 10px;
+    background: #eee;
+}
+
+h2 {
+    font-weight: none;
+    color: #cc3300;
+}
+
+
+textarea,
+input {
+    padding: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ddd;
+}
+
+textarea {
+    height: 100px;
+    width: 200px;
+}
