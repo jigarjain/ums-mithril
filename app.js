@@ -8,35 +8,36 @@ const App = {};
 
 
 App.DB = {
+    name: 'ums',
+
+    version: 2,
+
     /**
      * Initializes the IndexedDB for our application.
      * For the first load, it populates it with our
      * seed data. For subsequent loads, it does nothing
      *
      * @param  {Object} seed
-     *
      * @return {Promise}
      */
     init: (seed) => {
         return new Promise((resolve, reject) => {
-            const req = indexedDB.open('ums', 2);
+            const req = indexedDB.open(App.DB.name, App.DB.version);
 
             req.onerror = (event) => {
                 return reject('IndexedDB connection failed');
             };
 
-
             req.onsuccess = (event) => {
                 return resolve(event.target.result);
             };
-
 
             req.onupgradeneeded = (event) => {
                 const db = event.target.result;
                 const trans = event.target.transaction;
 
-                db.createObjectStore('users', { keyPath: 'id' });
-                db.createObjectStore('groups', { keyPath: 'id' });
+                db.createObjectStore('users', {keyPath: 'id'});
+                db.createObjectStore('groups', {keyPath: 'id'});
 
                 const userTrans = trans.objectStore('users');
                 const groupTrans = trans.objectStore('groups');
@@ -59,15 +60,15 @@ App.DB = {
 
 
     /**
-     * Returns a promise which resolves to DB connection
+     * Returns a promise which resolves to IDBDatabase
      * object.
-     * Note - Make sure to call close for closing the DB connections
+     * Note - Make sure to call close for closing the IDBDatabase
      *
-     * @return {Promise} On resolve, will give DB connection object
+     * @return {Promise} On resolve, will give IDBDatabase object
      */
     open: () => {
         return new Promise((resolve, reject) => {
-            const req = window.indexedDB.open('ums', 2);
+            const req = window.indexedDB.open(App.DB.name, App.DB.version);
 
             req.onerror = (event) => {
                 return reject('IndexedDB connection failed');
@@ -80,10 +81,9 @@ App.DB = {
     },
 
     /**
-     * Closes the DB connection for the given DB Connection object
+     * Closes the DB connection for the given IDBDatabase object
      *
      * @param  {Object} db
-     *
      * @return {void}
      */
     close: (db) => {
@@ -110,7 +110,7 @@ App.Group = function (data) {
 /**
  * Returns all the groups from the API
  *
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.Group.getAll = function () {
     return m.prop(
@@ -142,7 +142,7 @@ App.Group.getAll = function () {
  * group object from the API
  *
  * @param  {Number} id Group id
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.Group.getById = function (id) {
     return m.prop(
@@ -169,7 +169,7 @@ App.Group.getById = function (id) {
  * Saves the updated group
  *
  * @param  {Object} group
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.Group.save = function (group) {
     const grp = {};
@@ -216,7 +216,7 @@ App.User = function (user) {
 /**
  * Returns all the users from the API
  *
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.User.getAll = function () {
     return m.prop(
@@ -248,7 +248,7 @@ App.User.getAll = function () {
  * user object from the API
  *
  * @param  {Number} id User id
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.User.getById = function (id) {
     return m.prop(
@@ -275,7 +275,7 @@ App.User.getById = function (id) {
  * Saves the updated user info
  *
  * @param  {Object} user
- * @return {Function} m.prop
+ * @return {Function} m.prop getter/setter func
  */
 App.User.save = function (user) {
     const usr = {};
@@ -348,7 +348,6 @@ App.dashboard = {
             ));
         });
 
-
         groupRows.push(m('tr',
             [
                 m('th', 'Id'),
@@ -358,7 +357,6 @@ App.dashboard = {
                 m('th', 'Action')
             ]
         ));
-
 
         groups.forEach(grp => {
             grp.members = 0;
